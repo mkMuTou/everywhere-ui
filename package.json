@@ -1,0 +1,55 @@
+{
+    "name": "everywhere-ui",
+    "version": "0.0.1",
+    "author": "mkMuTou",
+    "license": "MIT",
+    "keywords": [
+        "web-components",
+        "lit",
+        "ui-library",
+        "typescript",
+        "less",
+        "vite",
+        "ui",
+        "component"
+    ],
+    "type": "module",
+    "main": "./dist/index.umd.js",
+    "module": "./dist/index.es.js",
+    "exports": {
+        ".": {
+            "import": "./dist/index.es.js",
+            "require": "./dist/index.umd.js",
+            "types": "./dist/types/index.d.ts"
+        }
+    },
+    "files": [
+        "dist/**/*",
+        "types/**/*"
+    ],
+    "scripts": {
+        "dev": "vite examples  --config vite.config.ts",
+        "build": "tsc && vite build",
+        "preview": "vite preview",
+        "lint": "stylelint \"src/**/*.less\""
+    },
+    "dependencies": {
+        "async-validator": "^4.2.5",
+        "lit": "^3.3.1",
+        "mitt": "^3.0.1",
+        "tslib": "^2.8.1"
+    },
+    "devDependencies": {
+        "@types/node": "^24.10.1",
+        "@types/postcss-pxtorem": "^6.1.0",
+        "@vue/reactivity": "^3.5.26",
+        "autoprefixer": "^10.4.23",
+        "less": "^4.4.2",
+        "postcss": "^8.5.6",
+        "postcss-less": "^6.0.0",
+        "postcss-pxtorem": "^6.1.0",
+        "typescript": "~5.9.3",
+        "vite": "^7.2.4",
+        "vite-plugin-dts": "^4.5.4"
+    }
+}

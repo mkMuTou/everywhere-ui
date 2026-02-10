@@ -1,0 +1,107 @@
+@import "@/styles/global.less";
+:host {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.drawer {
+    position: absolute;
+    background-color: var(--drawer-bg, #ffffff);
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: auto;
+    overflow: auto;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template:
+        "title close" 1.5rem
+        "content content" auto/1fr auto;
+    gap: 1rem;
+    padding: 1rem;
+
+    &--top {
+        top: 0;
+        left: 0;
+        right: 0;
+        transform: translateY(-100%);
+    }
+
+    &--bottom {
+        bottom: 0;
+        left: 0;
+        right: 0;
+        transform: translateY(100%);
+    }
+
+    &--left {
+        top: 0;
+        left: 0;
+        bottom: 0;
+        transform: translateX(-100%);
+    }
+
+    &--right {
+        top: 0;
+        right: 0;
+        bottom: 0;
+        transform: translateX(100%);
+    }
+
+    slot[name="title"] {
+        font-size: 1.2rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        line-clamp: 1;
+        -webkit-box-orient: vertical;
+        word-wrap: break-all;
+    }
+    .drawer__close {
+        background: none;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+        color: #666;
+        transition: color 0.2s;
+        &:hover {
+            color: #000;
+        }
+    }
+    .drawer__content {
+        grid-area: content;
+    }
+}
+
+/* 打开状态 */
+:host([isOpen]) {
+    .mask {
+        opacity: 1;
+        pointer-events: auto;
+    }
+    & .drawer--top,
+    & .drawer--bottom,
+    & .drawer--left,
+    & .drawer--right {
+        transform: translate(0, 0);
+    }
+}

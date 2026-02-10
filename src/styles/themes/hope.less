@@ -1,0 +1,52 @@
+/** 希望之光 */
+:root {
+    /** 浅色模式 */
+    &,
+    &[color-scheme="light"] {
+        /* 基础色 */
+        --ew-primary-color: #54615a;
+        --ew-secondary-color: #676c65;
+        --ew-tertiary-color: #708e98;
+        --ew-light-color: #a8aba4;
+        --ew-extra-light-color: #dee9ea;
+        --ew-background-color: #ced8e4;
+        /* 文字色 */
+        --ew-text-primary: #232b27;
+        --ew-text-secondary: #4a544e;
+        --ew-text-hint: #78807b;
+        --ew-text-on-primary: #ffffff;
+        /* 提示状态色（冷调适配） */
+        --ew-success-color: #3a8c52;
+        --ew-warning-color: #c08828;
+        --ew-error-color: #c03838;
+        --ew-info-color: #3878a0;
+        --ew-text-on-success: #ffffff;
+        --ew-text-on-warning: #ffffff;
+        --ew-text-on-error: #ffffff;
+        --ew-text-on-info: #ffffff;
+    }
+    /** 深色模式 */
+    &[color-scheme="dark"] {
+        /* 基础色 */
+        --ew-primary-color: #24322e;
+        --ew-secondary-color: #2e3330;
+        --ew-tertiary-color: #3a4b52;
+        --ew-light-color: #545854;
+        --ew-extra-light-color: #7a9294;
+        --ew-background-color: #7b8b9b;
+        /* 文字色 */
+        --ew-text-primary: #f0f5f2;
+        --ew-text-secondary: #d0d9d6;
+        --ew-text-hint: #a0a9a6;
+        --ew-text-on-primary: #ffffff;
+        /* 提示状态色（提亮，适配深色背景） */
+        --ew-success-color: #5ac878;
+        --ew-warning-color: #e8b040;
+        --ew-error-color: #e85050;
+        --ew-info-color: #50a0d0;
+        --ew-text-on-success: #232b27;
+        --ew-text-on-warning: #232b27;
+        --ew-text-on-error: #ffffff;
+        --ew-text-on-info: #ffffff;
+    }
+}

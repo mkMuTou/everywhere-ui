@@ -1,0 +1,37 @@
+// 移动端适配混合（媒体查询）
+.mixin-mobile(@rules) {
+    @media (max-width: 768px) {
+        @rules();
+    }
+}
+
+// 弹出层底部抽屉混合（移动端）
+.mixin-drawer-mobile(@rules) {
+    .mixin-mobile({
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        top: auto;
+        transform: translateY(100%);
+        transition: transform @transition-duration ease;
+        z-index: 1000;
+        border-radius: @border-radius @border-radius 0 0;
+        @rules();
+        
+        // 激活状态（显示抽屉）
+        &.active {
+        transform: translateY(0);
+        }
+    });
+}
+
+// 桌面端弹出层混合
+.mixin-popper-desktop(@rules) {
+    @media (min-width: 769px) {
+        position: absolute;
+        z-index: 1000;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+        @rules();
+    }
+}

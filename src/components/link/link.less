@@ -1,0 +1,31 @@
+@import "@/styles/variables.less";
+:host {
+    display: inline-block;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+    --ew-link-text-color: var(--ew-text-primary);
+    color: var(--ew-link-text-color);
+}
+:host([underline="hover"]:not([disabled]):hover),
+:host([underline="always"]) {
+    a::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 0;
+        bottom: 0;
+        border-bottom: 1px solid var(--ew-link-text-color);
+    }
+}
+each(@types, {
+    :host([type="@{value}"]){
+        --ew-link-text-color: ~`"var(--ew-@{value}-color)"`;
+    }
+});
+
+:host([disabled]) {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
