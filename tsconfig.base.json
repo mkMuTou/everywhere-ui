@@ -1,0 +1,41 @@
+{
+    "compilerOptions": {
+        "resolveJsonModule": true, // 允许导入 JSON 模块
+        // 1. 目标环境与模块
+        "target": "ES2020", // 编译目标 ES 版本（兼容现代浏览器，支持 lit 特性）
+        "module": "ESNext", // 模块系统（ES 模块，适配 Vite）
+        "moduleResolution": "bundler", // 模块解析方式（Node 规则，支持 node_modules）
+
+        // 2. 严格类型检查（必开，保证组件库类型安全）
+        "strict": true, // 开启所有严格类型检查（如 null/undefined 检查）
+        "esModuleInterop": true, // 兼容 CommonJS/ES 模块互操作（如 require/import）
+        "skipLibCheck": true, // 跳过第三方库的类型检查（加快编译）
+        "forceConsistentCasingInFileNames": true, // 强制文件名大小写一致（避免跨平台问题）
+        "noUnusedLocals": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+        "emitDecoratorMetadata": true,
+        "isolatedModules": true,
+
+        // 3. 声明文件配置（交给 vite-plugin-dts 处理）
+        // "declaration": false, // 关闭 TS 自身生成声明（避免与 dts 插件冲突）
+        // "declarationDir": "types", // 声明文件输出目录（仅作为 fallback）
+        "emitDeclarationOnly": false, // 关闭仅生成声明的模式
+
+        "baseUrl": ".", // 基础路径（配合 paths 别名）
+        "paths": {
+            "@/*": ["src/*"] // 路径别名（与 Vite resolve.alias 保持一致）
+        },
+
+        // 5. 类型与库依赖
+        "types": ["vite/client", "node"], // 引入 Vite/Node 类型声明
+        "lib": ["ES2020", "DOM", "DOM.Iterable"], // 编译时依赖的库（支持 DOM API、迭代器）
+
+        // 6. 兼容性配置（Lit 必需）
+        "allowSyntheticDefaultImports": true, // 允许默认导入（如 import lit from 'lit'）
+        "experimentalDecorators": true, // 开启装饰器（Lit 的 @customElement 等装饰器需要）
+        "useDefineForClassFields": false // 关闭类字段的 ES 规范（兼容 Lit 的类字段写法）
+    },
+    "include": ["src/**/*", "package.json"], // 要编译的文件（src 下所有 TS/TSX）
+    "exclude": ["node_modules", "dist", "examples", "**/*.test.ts"] // 排除的文件
+}

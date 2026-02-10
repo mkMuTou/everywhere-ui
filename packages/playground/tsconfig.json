@@ -1,0 +1,11 @@
+{
+    "extends": "../../tsconfig.base.json",
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["src/*"] // 路径别名（与 Vite resolve.alias 保持一致）
+        }
+    },
+    "include": ["src/**/*"],
+    "exclude": ["dist", "node_modules"]
+}

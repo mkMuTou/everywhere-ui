@@ -1,0 +1,44 @@
+@import "./reset.less";
+@import "./baseColor.less";
+
+/* 响应式断点 */
+@pc-breakpoint: 1024px;
+@pad-breakpoint: 768px;
+
+/* 基础变量（通用） */
+@border-radius: 4px;
+@transition-duration: 0.3s;
+
+/* 移动端样式混入 */
+.mobile-style(@rules) {
+    @media (max-width: (@pad-breakpoint - 1px)) {
+        @rules();
+    }
+}
+
+/* 平板样式（768px ~ 1024px） */
+.tablet-style(@rules) {
+    @media (min-width: @pad-breakpoint) and (max-width: @pc-breakpoint) {
+        @rules();
+    }
+}
+
+/* 大屏 PC（> 1024px） */
+.large-pc-style(@rules) {
+    @media (min-width: 1025px) {
+        @rules();
+    }
+}
+
+.text-overflow(@line) {
+    /* 隐藏超出部分 */
+    overflow: hidden;
+    /* 文本超出就用省略号 */
+    text-overflow: ellipsis;
+    /* 把对象作为弹性伸缩盒子模型显示 */
+    display: -webkit-box;
+    /* WebKit内核的浏览器的私有属性，设置文本超出2行就用省略号 */
+    -webkit-line-clamp: @line;
+    /* WebKit内核的浏览器的私有属性，设置或检索伸缩盒对象的子元素的排列方式 */
+    -webkit-box-orient: vertical;
+}

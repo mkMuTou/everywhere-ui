@@ -1,0 +1,28 @@
+/* 中性色 */
+:root {
+    --ew-text-primary: #212121;
+    --ew-text-secondary: #666666;
+    --ew-text-tertiary: #999999;
+
+    --ew-bg-main: #f8f9fa;
+    --ew-bg-card: #ffffff;
+    --ew-bg-hover: #f5f5f5;
+
+    --ew-border-primary: #dcdfe6;
+    --ew-border-secondary: #e8e8e8;
+    --ew-bg-disabled: #fafafa;
+    &[color-scheme="dark"] {
+        /* 中性色-深色模式 */
+        --ew-text-primary: #ececec;
+        --ew-text-secondary: #b0b0b0;
+        --ew-text-tertiary: #787878;
+
+        --ew-bg-main: #121212;
+        --ew-bg-card: #181818;
+        --ew-bg-hover: #212121;
+
+        --ew-border-primary: #333333;
+        --ew-border-secondary: #282828;
+        --ew-bg-disabled: #242424;
+    }
+}

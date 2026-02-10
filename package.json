@@ -1,0 +1,29 @@
+{
+    "name": "every-where",
+    "version": "0.0.1",
+    "description": "",
+    "main": "index.js",
+    "private": true,
+    "scripts": {
+        "dev": "pnpm --filter @every-where/playground dev",
+        "build:ui": "pnpm --filter @every-where/ui build",
+        "build": "pnpm build:ui"
+    },
+    "workspaces": [
+        "packages/*"
+    ],
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "packageManager": "pnpm@10.23.0",
+    "engines": {
+        "node": ">=22.14.0",
+        "npm": ">=10.9.2",
+        "pnpm": ">=10.15.1"
+    },
+    "devDependencies": {
+        "@types/node": "^24.10.12",
+        "typescript": "~5.9.3",
+        "vite": "^7.3.1"
+    }
+}

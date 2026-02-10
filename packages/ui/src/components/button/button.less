@@ -1,0 +1,45 @@
+@import "@/assets/styles/variables.less";
+:host {
+    display: inline-block;
+    overflow: hidden;
+}
+each(@types, {
+    :host([type="@{value}"]) .ew-button{
+        background-color: ~`"var(--ew-@{value}-color)"`;
+        color: white;
+
+        &:hover:not(:disabled) {
+            background-color: `"var(--color-hover-@{value})"`;
+        }
+    }
+});
+:host([type="default"]) .ew-button {
+    border: var(--ew-border-secondary) 1px solid;
+    background-color: var(--ew-bg-card);
+    color: var(--ew-text-primary);
+
+    &:hover:not(:disabled) {
+        background-color: var(--ew-bg-hover);
+    }
+}
+:host([circle]) {
+    border-radius: 9999px;
+}
+each(@sizes, {
+    :host([size="@{value}"]) .ew-button{
+        padding:2px * @index + 2px 4px * @index + 4px;
+        font-size:2px * @index + 10px;
+    }
+});
+.ew-button {
+    border: none;
+    border-radius: @border-radius;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+}
