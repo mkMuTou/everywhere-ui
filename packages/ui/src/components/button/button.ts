@@ -7,18 +7,20 @@ export class EwButton extends LitElement {
     static styles = unsafeCSS(styles);
 
     /** 按钮类型 */
-    @property({ type: String, reflect: true })
-    type?: "default" | "primary" | "success" | "warning" | "error" | "info" =
-        "default";
+    @property({ type: String })
+    type?: "default" | "primary" | "success" | "warning" | "error" | "info";
     /** 按钮是否禁用 */
     @property({ type: Boolean })
     disabled = false;
     /** 按钮的尺寸 */
     @property({ type: String, reflect: true })
     size: "small" | "medium" | "large" = "medium";
-    /** 按钮是否为圆形 */
+    /** 是否为胶囊按钮 */
     @property({ type: Boolean })
-    circle = false;
+    capsule = false;
+    /** 是否为朴素按钮 */
+    @property({ type: Boolean })
+    plain = false;
     /** loading */
     @property({ type: Boolean })
     loading = false;

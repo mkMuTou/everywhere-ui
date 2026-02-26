@@ -112,8 +112,6 @@ export function setThemeConfig(config: ThemeStyleConfig) {
                 ThemeStyle.register(theme.key, theme.name, theme.url);
             }
         });
-    } else {
-        registerPresetThemeStyle();
     }
     if (config.storage) {
         Promise.resolve(config.storage.get()).then((theme) => {
@@ -212,6 +210,7 @@ export class ThemeStyle {
         if (currentThemeStyle === theme) return;
         currentThemeStyle = theme;
         await loadCss(theme.url, theme.remote);
+        themeConfig?.storage?.set(theme.getKey());
         emitter.emit("theme-style-change", currentThemeStyle);
         return theme;
     }
@@ -241,19 +240,6 @@ function getUrl(url: string) {
     return fileUrl.pathname;
 }
 
-/** 使用预设的主题样式 */
-function registerPresetThemeStyle() {
-    ThemeStyle.register("earch", "大地之光", getUrl("earch"));
-    ThemeStyle.register("hope", "希望之光", getUrl("hope"));
-    ThemeStyle.register("rapunzel", "乐佩公主", getUrl("rapunzel"));
-    ThemeStyle.register("simple", "朴实无华", getUrl("simple"));
-    ThemeStyle.register("fairy", "童话世界", getUrl("fairy"));
-    ThemeStyle.register("sky", "海阔天空", getUrl("sky"));
-    ThemeStyle.register("harvest", "丰收季节", getUrl("harvest"));
-    ThemeStyle.register("future", "前途光明", getUrl("future"));
-    ThemeStyle.register("classic", "经典永存", getUrl("classic"));
-    return ThemeStyle;
-}
 async function loadCss(path: string, remote?: boolean) {
     if (remote || path.startsWith("http://") || path.startsWith("https://")) {
         await loadRemoteCSS(path);

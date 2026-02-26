@@ -16,7 +16,7 @@ function getComponentEntries() {
         if (fs.statSync(dirPath).isDirectory()) {
             const indexPath = join(dirPath, "index.ts");
             if (fs.existsSync(indexPath)) {
-                entries[dir] = indexPath;
+                entries['components/'+dir] = indexPath;
             }
         }
     });
@@ -30,30 +30,38 @@ export default defineConfig({
             "@": resolve(__dirname, "src"),
         },
     },
-    assetsInclude: ["./src/types/themes/*.less"],
+    assetsInclude: ["./src/styles/theme.less"],
     build: {
-        target: "es2018",
-        /* lib: {
+        target: "es2021",
+        lib: {
             entry: {
                 index: resolve(__dirname, "src/index.ts"),
+                theme:resolve(__dirname,"src/utils/theme.ts"),
+                ...getComponentEntries(),
             },
             name: "everywhere-ui",
             formats: ["es", "cjs"],
-            fileName: (format, entryName) =>
-                `${entryName}.${format === "es" ? "js" : "cjs"}`, // 统一文件名
-        }, */
-        rollupOptions: {
+            fileName: (format, entryName) =>{
+                return `${entryName}.${format === "es" ? "js" : "cjs"}` // 统一文件名
+            },
+        },
+        /* rollupOptions: {
             external: ["mitt", "lit"],
             input: {
                 main: resolve(__dirname, "src/index.ts"),
+                theme:resolve(__dirname,"src/utils/theme.ts"),
                 ...getComponentEntries(),
             },
             output: {
+                // preserveModules: false,
                 globals: {
                     lit: "lit",
                 },
+                name:"every-there",
                 entryFileNames: (chunkInfo) => {
                     // 如果是组件入口
+                    console.log(chunkInfo);
+                    
                     if (
                         Object.keys(getComponentEntries()).includes(
                             chunkInfo.name,
@@ -62,11 +70,14 @@ export default defineConfig({
                         return `components/[name].js`;
                     }
                     // 主入口
+                    if(chunkInfo.name=='theme'){
+                        return 'theme.js'
+                    }
                     return `index.js`;
                 },
                 assetFileNames: "assets/[name].[hash].[ext]",
             },
-        },
+        }, */
     },
     plugins: [
         dts({
@@ -96,9 +107,6 @@ export default defineConfig({
                 math: "parens-division",
             },
         },
-    },
-    server: {
-        host: "0.0.0.0",
     },
     optimizeDeps: {
         include: ["package.json"],

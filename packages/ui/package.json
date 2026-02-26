@@ -21,10 +21,14 @@
         ".": {
             "import": "./dist/index.js",
             "require": "./dist/index.cjs",
-            "types": "./dist/index.d.ts"
+            "types": "./dist/types/index.d.ts"
         },
-        "./styles.css": "./dist/styles.css",
-        "./components/*": "./dist/components/*.js"
+        "./styles": "./dist/ui.css",
+        "./components/*": "./dist/components/*.js",
+        "./theme":{
+            "import":"./dist/theme.js",
+            "types":"./dist/types/utils/theme.d.ts"
+        }
     },
     "files": [
         "dist"

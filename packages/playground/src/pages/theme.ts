@@ -1,11 +1,16 @@
 import {
     ColorScheme,
     setSchemeConfig,
-    ThemeStyle,
-    setThemeConfig,
-} from "../../src/utils/theme";
+    // ThemeStyle,
+    // setThemeConfig,
+} from "@every-where/ui/theme";
 import { repeat } from "lit/directives/repeat.js";
 import { html } from "lit";
+
+/* function getUrl(url: string) {
+    const fileUrl = new URL(`../assets/${url}.less`, import.meta.url);
+    return fileUrl.pathname;
+}
 
 setThemeConfig({
     storage: {
@@ -16,7 +21,10 @@ setThemeConfig({
             localStorage.setItem("theme-style", value);
         },
     },
-});
+    themes:[
+        {name:'前途光明',key:'future',url:getUrl('future')}
+    ]
+}); */
 
 setSchemeConfig({
     storage: {

@@ -5,7 +5,7 @@
     "main": "index.js",
     "private": true,
     "scripts": {
-        "dev": "pnpm --filter @every-where/playground dev",
+        "dev": "pnpm --filter @every-where/ui dev && pnpm --filter @every-where/playground dev",
         "build:ui": "pnpm --filter @every-where/ui build",
         "build": "pnpm build:ui"
     },
