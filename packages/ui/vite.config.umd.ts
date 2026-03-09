@@ -2,7 +2,6 @@ import { defineConfig } from "vite";
 import autoprefixer from "autoprefixer";
 import postcssPxToRem from "postcss-pxtorem";
 import { resolve } from "path";
-import dts from "vite-plugin-dts";
 
 export default defineConfig({
     resolve: {
@@ -10,39 +9,32 @@ export default defineConfig({
             "@": resolve(__dirname, "src"),
         },
     },
+    assetsInclude: ["./src/styles/theme.less"],
     build: {
         target: "es2021",
-        sourcemap: true,
         assetsDir: "assets",
+        outDir: "dist/umd", // 输出到 dist/umd
+        minify: true, // UMD 通常用于生产环境直接引用，建议压缩
         lib: {
+            formats: ["umd"],
+            fileName: (format) => `everywhere-ui.${format}.js`,
             entry: resolve(__dirname, "src/index.ts"),
             name: "everywhere-ui",
-            formats: ["es"],
         },
         rollupOptions: {
-            external: ["mitt", /^lit(\/.*)?$/],
+            external: [],
+            // 用 output 数组分别为每个格式指定输出目录和文件名
             output: {
-                format: "es",
-                dir: "dist/es",
-                entryFileNames: "[name].js",
-                preserveModulesRoot: "src",
-                preserveModules: true,
-                /* globals: {
-                    mitt: "mitt",
-                    lit: "lit",
-                    "lit/decorators.js": "lit/decorators.js",
-                }, */
+                globals: {},
+                assetFileNames: (assetInfo) => {
+                    if (assetInfo.name?.endsWith(".css")) {
+                        return "everywhere-ui.css"; // UMD 通常合并为一个 css 文件
+                    }
+                    return "[name][extname]";
+                },
             },
         },
     },
-    plugins: [
-        dts({
-            entryRoot: "src",
-            outDir: "dist/types",
-            tsconfigPath: resolve(__dirname, "tsconfig.json"),
-            include: ["src/**/*"],
-        }),
-    ],
     css: {
         postcss: {
             plugins: [

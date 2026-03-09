@@ -2,9 +2,9 @@
     "compilerOptions": {
         "resolveJsonModule": true, // 允许导入 JSON 模块
         // 1. 目标环境与模块
-        "target": "ES2021", // 编译目标 ES 版本（兼容现代浏览器，支持 lit 特性）
-        "module": "nodenext", // 模块系统（ES 模块，适配 Vite）
-        "moduleResolution": "nodenext", // 模块解析方式（Node 规则，支持 node_modules）
+        "target": "ES2022", // 编译目标 ES 版本（兼容现代浏览器，支持 lit 特性）
+        "module": "ES2022", // 模块系统（ES 模块，适配 Vite）
+        "moduleResolution": "bundler", // 模块解析方式（Node 规则，支持 node_modules）
 
         // 2. 严格类型检查（必开，保证组件库类型安全）
         "strict": true, // 开启所有严格类型检查（如 null/undefined 检查）
@@ -37,6 +37,6 @@
         "experimentalDecorators": true, // 开启装饰器（Lit 的 @customElement 等装饰器需要）
         "useDefineForClassFields": false // 关闭类字段的 ES 规范（兼容 Lit 的类字段写法）
     },
-    "include": ["src/**/*", "package.json","src/utils/theme.ts"], // 要编译的文件（src 下所有 TS/TSX）
+    "include": ["src/**/*", "package.json", "src/utils/theme.ts"], // 要编译的文件（src 下所有 TS/TSX）
     "exclude": ["node_modules", "dist", "examples", "**/*.test.ts"] // 排除的文件
 }
