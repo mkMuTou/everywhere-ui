@@ -1,5 +1,6 @@
 @import url(./variables.less);
 @percentum: 1,2,3,4;
+@transparent:3,5,7;
 @color-primary: #ff9900;
 @color-secondary: #722ed1;
 @color-success: #67c23a;
@@ -17,6 +18,10 @@
         @adjust: @val * 10%;
         --ew-color-@{value}-light-@{val}:lighten(@@name,@adjust);
         --ew-color-@{value}-dark-@{val}:darken(@@name,@adjust);
+    })
+    each(@transparent,.(@val){
+        @adjust: @val * 10%;
+        --ew-color-@{value}-fade-@{val}:fade(@@name,@adjust);
     })
   })
 

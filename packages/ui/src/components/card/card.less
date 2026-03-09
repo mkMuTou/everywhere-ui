@@ -1,0 +1,44 @@
+@import url("/src/assets/styles/variables.less");
+:host {
+    display: block;
+    margin: 8px;
+    block-size: 100%;
+    --ew-card-color: var(--ew-color-gray-300);
+    --ew-card-shadow-color: #0002;
+}
+:host([shadow="never"]) .ew-card {
+    box-shadow: none;
+}
+:host([shadow="hover"]) .ew-card {
+    box-shadow: none;
+    &:hover {
+        box-shadow: 0 0 12px var(--ew-card-shadow-color);
+    }
+}
+.ew-card {
+    border-radius: var(--ew-radius-lg);
+    border: var(--ew-card-color) 1px solid;
+    box-shadow: 0 0 12px var(--ew-card-shadow-color);
+    .ew-card-header,
+    .ew-card-footer {
+        padding-block: 18px;
+        padding-inline: 20px;
+    }
+    .ew-card-header-content {
+        font-weight: 500;
+    }
+    .ew-card-body {
+        padding: 20px;
+    }
+}
+each(@types, {
+    :host([type="@{value}"]){
+        --ew-card-color: ~`"var(--ew-color-@{value}-light-3)"`;
+        --ew-card-shadow-color: ~`"var(--ew-color-@{value}-fade-3)"`;
+    }
+});
+.ew-card-line {
+    block-size: 1px;
+    border: none;
+    background-color: var(--ew-color-gray-400);
+}

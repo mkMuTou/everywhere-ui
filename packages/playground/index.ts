@@ -1,15 +1,14 @@
 import { html, render } from "lit";
 import { join } from "lit/directives/join.js";
 import { until } from "lit/directives/until.js";
-import "@every-where/ui/styles";
-
-// import "../src/index";
+import "@every-where/ui/card";
 
 const commons = [
     import("./src/pages/theme"),
     // import("./src/pages/drawer"),
     import("./src/pages/button"),
     // import("./src/pages/icon"),
+    import("./src/pages/card"),
 ];
 
 function asyncRender() {

@@ -4,6 +4,7 @@ import {
     // ThemeStyle,
     // setThemeConfig,
 } from "@every-where/ui/theme";
+import "@every-where/ui/styles";
 import { repeat } from "lit/directives/repeat.js";
 import { html } from "lit";
 
