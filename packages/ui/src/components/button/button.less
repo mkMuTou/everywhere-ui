@@ -1,86 +1,115 @@
-@import url("@/assets/styles/variables.less");
+@import url("/src/assets/styles/variables.less");
 :host {
     display: inline-block;
     overflow: hidden;
+    border: var(--ew-btn-border-color) 1px solid;
+    border-radius: var(--ew-radius-md);
+    margin-block: 0;
+    margin-inline: 2px;
+    --ew-btn-border-color: var(--ew-border-base);
+    --ew-btn-border-color-hover: var(--ew-color-primary-light-3);
+    --ew-btn-border-color-active: var(--ew-color-primary);
+    --ew-btn-outline-color: var(--ew-color-primary);
+    &:has(button:focus-visible) {
+        outline: 2px solid var(--ew-btn-outline-color);
+        outline-offset: 1px;
+        transition:
+            outline-offset 0s,
+            outline 0s;
+    }
+    &:has(button:not(:disabled):hover) {
+        border-color: var(--ew-btn-border-color-hover);
+    }
+    &:has(button:not(:disabled):active) {
+        border-color: var(--ew-btn-border-color-active);
+    }
+}
+:host([capsule]) {
+    border-radius: var(--ew-radius-full);
 }
 .ew-button {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0 1em;
-    border: var(--ew-border-base) 1px solid;
-    border-radius: var(--ew-radius-md);
+    padding-block: 0;
+    padding-inline: 1em;
     background-color: var(--ew-bg-base);
     color: var(--ew-text-primary);
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
+    border: none;
 
     &:disabled {
         opacity: 0.6;
         cursor: not-allowed;
     }
 
+    &:focus-visible {
+        outline: none;
+    }
+
     &:not(:disabled) {
         &:hover {
-            border-color: var(--ew-color-primary-light-3);
             background-color: var(--ew-color-primary-light-4);
             color: var(--ew-color-primary);
         }
-        &:active {
-            border-color: var(--ew-color-primary);
-        }
     }
 }
-:host([capsule]) .ew-button {
-    border-radius: var(--ew-radius-full);
-}
-:host([plain]) .ew-button {
-    &:not(:disabled) {
-        &:hover {
-            border-color: var(--ew-color-primary-light-3);
-            background-color: unset;
-            color: var(--ew-color-primary);
-        }
-        &:active {
-            border-color: var(--ew-color-primary);
+:host([plain]) {
+    --ew-btn-border-color-hover: var(--ew-color-primary-light-3);
+    --ew-btn-border-color-active: var(--ew-color-primary);
+    .ew-button {
+        &:not(:disabled) {
+            &:hover {
+                background-color: unset;
+                color: var(--ew-color-primary);
+            }
         }
     }
 }
 each(@types, {
-    :host([type="@{value}"]) .ew-button{
-        background-color: ~`"var(--ew-color-@{value})"`;
+    :host([type="@{value}"]){
         border-width: 0px;
-        color: var(--ew-color-white);
+        --ew-btn-outline-color: ~`"var(--ew-color-@{value})"`;
+        .ew-button{
+            background-color: ~`"var(--ew-color-@{value})"`;
+            color: var(--ew-color-white);
 
-        &:not(:disabled){
-            &:hover {
-                background-color: ~"var(--ew-color-@{value}-light-1)";
-            }
-            &:active {
-                background-color: ~"var(--ew-color-@{value}-dark-1)";
+            &:not(:disabled){
+                &:hover {
+                    background-color: ~"var(--ew-color-@{value}-light-1)";
+                }
+                &:active {
+                    background-color: ~"var(--ew-color-@{value}-dark-1)";
+                }
             }
         }
     }
-    :host([type="@{value}"][plain]) .ew-button{
-        background-color: ~`"var(--ew-color-@{value}-light-4)"`;
-        color:~"var(--ew-color-@{value})";
-        border-color: ~"var(--ew-color-@{value})";
+    :host([type="@{value}"][plain]){
         border-width: 1px;
+        --ew-btn-border-color: ~"var(--ew-color-@{value})";
+        --ew-btn-border-color-hover: ~"var(--ew-color-@{value})";
+        --ew-btn-border-color-active: ~"var(--ew-color-@{value})";
 
-        &:not(:disabled){
-            &:hover {
-                background-color: ~"var(--ew-color-@{value}-light-1)";
-                color: var(--ew-color-white);
-                border-color: ~"var(--ew-color-@{value})";
-            }
-            &:active {
-                background-color: ~"var(--ew-color-@{value}-dark-1)";
-                color: var(--ew-color-white);
-            }
-        }
+        .ew-button{
+           background-color: ~`"var(--ew-color-@{value}-light-4)"`;
+           color:~"var(--ew-color-@{value})";
+   
+           &:not(:disabled){
+               &:hover {
+                   background-color: ~"var(--ew-color-@{value}-light-1)";
+                   color: var(--ew-color-white);
+               }
+               &:active {
+                   background-color: ~"var(--ew-color-@{value}-dark-1)";
+                   color: var(--ew-color-white);
+               }
+           }
+       }
     }
 });
+/** size */
 each(@sizes, {
     :host([size="@{value}"]) .ew-button{
         height: 8px * @index + 16px;

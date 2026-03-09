@@ -1,5 +1,5 @@
 import { html } from "lit";
-import "@every-where/ui";
+import "@every-where/ui/button";
 export default function () {
     return html`
         ew-link
