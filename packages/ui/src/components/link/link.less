@@ -1,0 +1,40 @@
+@import url("/src/assets/styles/variables.less");
+:host {
+    display: inline-block;
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+    color: var(--ew-link-text-color);
+    --ew-link-text-color: var(--ew-color-primary);
+}
+:host(:not([disabled])):has(a:focus-visible) {
+    outline: 2px solid var(--ew-link-text-color);
+    outline-offset: 1px;
+    transition:
+        outline-offset 0s,
+        outline 0s;
+}
+:host([underline="hover"]:not([disabled]):hover),
+:host([underline="always"]) {
+    a::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-bottom: 1px solid var(--ew-link-text-color);
+    }
+}
+each(@types, {
+    :host([type="@{value}"]){
+        --ew-link-text-color: ~`"var(--ew-color-@{value})"`;
+    }
+});
+
+:host([disabled]) {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+a {
+    text-decoration: none;
+    outline: none;
+}

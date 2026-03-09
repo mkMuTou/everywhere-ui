@@ -7,6 +7,7 @@ const commons = [
     import("./src/pages/theme"),
     // import("./src/pages/drawer"),
     import("./src/pages/button"),
+    import("./src/pages/link"),
     // import("./src/pages/icon"),
     import("./src/pages/card"),
 ];
