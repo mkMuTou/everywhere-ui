@@ -2,9 +2,9 @@
 :host {
     display: block;
     margin: 8px;
-    block-size: 100%;
     --ew-card-color: var(--ew-color-gray-300);
     --ew-card-shadow-color: #0002;
+    --ew-card-bg: var(--ew-color-white);
 }
 :host([shadow="never"]) .ew-card {
     box-shadow: none;
@@ -19,6 +19,7 @@
     border-radius: var(--ew-radius-lg);
     border: var(--ew-card-color) 1px solid;
     box-shadow: 0 0 12px var(--ew-card-shadow-color);
+    background: var(--ew-card-bg);
     .ew-card-header,
     .ew-card-footer {
         padding-block: 18px;

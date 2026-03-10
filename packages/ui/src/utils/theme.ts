@@ -99,6 +99,7 @@ export interface ThemeStyleConfig {
         set(value: string): void;
     };
     themes?: ThemeStyle[] | { key: string; name: string; url: string }[];
+    default?: string;
 }
 let themeConfig: ThemeStyleConfig;
 
@@ -115,7 +116,15 @@ export function setThemeConfig(config: ThemeStyleConfig) {
     }
     if (config.storage) {
         Promise.resolve(config.storage.get()).then((theme) => {
-            ThemeStyle.switchTheme(theme);
+            ThemeStyle.switchTheme(theme)
+                .catch(() => {
+                    if (themeConfig.default) {
+                        ThemeStyle.switchTheme(themeConfig.default);
+                    }
+                })
+                .catch(() => {
+                    console.error("Invalid theme style");
+                });
         });
     }
     return ThemeStyle;
@@ -129,24 +138,16 @@ export class ThemeStyle {
     private key: string;
     private name: string;
     private url: string;
-    private readonly remote: boolean;
     /**
      *
      * @param key 主题id
      * @param name 样式名
      * @param url 样式路径，可以为项目本地路径也可以为网络资源
-     * @param remote 是否为远程资源
      */
-    constructor(
-        key: string,
-        name: string,
-        url: string,
-        remote: boolean = false,
-    ) {
+    constructor(key: string, name: string, url: string) {
         this.key = key;
         this.name = name;
         this.url = url;
-        this.remote = remote;
     }
     getName() {
         return this.name;
@@ -191,12 +192,12 @@ export class ThemeStyle {
      * 根据主题key切换主题样式
      * @param key 主题key
      */
-    static switchTheme(key: string): void;
+    static switchTheme(key: string): Promise<ThemeStyle>;
     /**
      * 切换主题样式
      * @param themeStyle 主题样式
      */
-    static switchTheme(themeStyle: ThemeStyle): void;
+    static switchTheme(themeStyle: ThemeStyle): Promise<ThemeStyle>;
     static async switchTheme(themeStyle: ThemeStyle | string) {
         let theme: ThemeStyle;
         if (typeof themeStyle === "string") {
@@ -205,11 +206,11 @@ export class ThemeStyle {
             theme = themeStyle;
         }
         if (!theme) {
-            console.error("Invalid theme style");
+            throw new Error("Invalid theme style");
         }
         if (currentThemeStyle === theme) return;
         currentThemeStyle = theme;
-        await loadCss(theme.url, theme.remote);
+        await loadTheme(theme.url);
         themeConfig?.storage?.set(theme.getKey());
         emitter.emit("theme-style-change", currentThemeStyle);
         return theme;
@@ -235,34 +236,58 @@ export class ThemeStyle {
         return theme;
     }
 }
-function getUrl(url: string) {
-    const fileUrl = new URL(`../styles/themes/${url}.less`, import.meta.url);
-    return fileUrl.pathname;
-}
+/** 保存当前生效的 link 元素 */
+let currentLink: HTMLLinkElement;
 
-async function loadCss(path: string, remote?: boolean) {
-    if (remote || path.startsWith("http://") || path.startsWith("https://")) {
-        await loadRemoteCSS(path);
-    } else {
-        await loadLocalCSS(path);
-    }
-}
-async function loadLocalCSS(path: string) {
-    try {
-        await import(/* @vite-ignore */ path);
-    } catch (err) {
-        throw new Error(`Local CSS file not found: ${path}`);
-    }
-}
-
-function loadRemoteCSS(url: string): Promise<void> {
+/**
+ * 动态加载 CSS 主题文件
+ * @param path - 主题文件路径（本地相对路径或完整 URL）
+ */
+function loadTheme(path: string): Promise<void> {
     return new Promise((resolve, reject) => {
+        if (!path) {
+            reject(new Error("Theme path is required"));
+            return;
+        }
+
+        // 浏览器环境检查（SSR 保护）
+        if (typeof document === "undefined") {
+            reject(
+                new Error(
+                    "loadTheme can only be called in browser environment",
+                ),
+            );
+            return;
+        }
+
+        // 创建新的 link 元素
         const link = document.createElement("link");
         link.rel = "stylesheet";
-        link.href = url;
-        link.onload = () => resolve();
-        link.onerror = () =>
-            reject(new Error(`Failed to load remote CSS: ${url}`));
+        link.type = "text/css";
+        link.href = path;
+
+        // 处理加载成功
+        link.onload = () => {
+            // 移除旧的 link（如果有）
+            if (currentLink && currentLink.parentNode) {
+                currentLink.parentNode.removeChild(currentLink);
+            }
+            // 更新当前 link 引用
+            currentLink = link;
+            resolve();
+        };
+
+        // 处理加载失败
+        link.onerror = () => {
+            // 加载失败时不改变当前主题，仅 reject
+            // 同时移除刚才添加的失败 link（避免残留）
+            if (link.parentNode) {
+                link.parentNode.removeChild(link);
+            }
+            reject(new Error(`Failed to load theme: ${path}`));
+        };
+
+        // 添加到 <head> 开始加载
         document.head.appendChild(link);
     });
 }

@@ -1,31 +1,37 @@
 import {
     ColorScheme,
     setSchemeConfig,
-    // ThemeStyle,
-    // setThemeConfig,
+    ThemeStyle,
+    setThemeConfig,
 } from "@every-where/ui/theme";
-import "@every-where/ui/styles";
+import defaultTheme from "@every-where/ui/styles?url";
+import blueTheme from "@/assets/theme/blue.less?url";
 import { repeat } from "lit/directives/repeat.js";
 import { html } from "lit";
-
-/* function getUrl(url: string) {
-    const fileUrl = new URL(`../assets/${url}.less`, import.meta.url);
-    return fileUrl.pathname;
-}
 
 setThemeConfig({
     storage: {
         get() {
-            return localStorage.getItem("theme-style") || "future";
+            return localStorage.getItem("theme-style") || "default";
         },
         set(value) {
             localStorage.setItem("theme-style", value);
         },
     },
-    themes:[
-        {name:'前途光明',key:'future',url:getUrl('future')}
-    ]
-}); */
+    default: "default",
+    themes: [
+        {
+            name: "默认",
+            key: "default",
+            url: defaultTheme,
+        },
+        {
+            name: "蓝色",
+            key: "blue",
+            url: blueTheme,
+        },
+    ],
+});
 
 setSchemeConfig({
     storage: {
@@ -41,12 +47,22 @@ const schemes = ColorScheme.COLOR_SCHEMES;
 function changeColorScheme(colorScheme: ColorScheme) {
     ColorScheme.switchColorScheme(colorScheme.getKey());
 }
+function changeTheme(theme: ThemeStyle) {
+    ThemeStyle.switchTheme(theme);
+}
 
 export default function () {
     return html`${repeat(Object.keys(schemes), (key) => {
-        const item = schemes[key];
-        return html`<ew-button @click=${() => changeColorScheme(item)}
-            >${item}</ew-button
-        >`;
-    })}`;
+            const item = schemes[key];
+            return html`<ew-button @click=${() => changeColorScheme(item)}>
+                ${item}
+            </ew-button>`;
+        })}
+        <hr />
+        ${repeat(Object.keys(ThemeStyle.THEME_STYLES), (key) => {
+            const item = ThemeStyle.THEME_STYLES[key];
+            return html`<ew-button @click=${() => changeTheme(item)}>
+                ${item}
+            </ew-button>`;
+        })} `;
 }
